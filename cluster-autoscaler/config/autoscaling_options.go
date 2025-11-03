@@ -50,6 +50,8 @@ type NodeGroupAutoscalingOptions struct {
 	ScaleDownUnreadyTime time.Duration
 	// Maximum time CA waits for node to be provisioned
 	MaxNodeProvisionTime time.Duration
+	// Maximum time CA waits for node to be ready from registered
+	MaxNodeStartupTime time.Duration
 	// ZeroOrMaxNodeScaling means that a node group should be scaled up to maximum size or down to zero nodes all at once instead of one-by-one.
 	ZeroOrMaxNodeScaling bool
 	// AllowNonAtomicScaleUpToMax indicates that partially failing scale-ups of ZeroOrMaxNodeScaling node groups should not be cancelled
@@ -230,6 +232,9 @@ type AutoscalingOptions struct {
 	BalancingLabels []string
 	// AWSUseStaticInstanceList tells if AWS cloud provider use static instance type list or dynamically fetch from remote APIs.
 	AWSUseStaticInstanceList bool
+	// ScaleFromUnschedulable tells the autoscaler to ignore a node's .spec.unschedulable field when creating a node template.
+	// Specifically, this will cause the autoscaler to set the node template's .spec.unschedulable field to false.
+	ScaleFromUnschedulable bool
 	// GCEOptions contain autoscaling options specific to GCE cloud provider.
 	GCEOptions GCEOptions
 	// KubeClientOpts specify options for kube client
@@ -342,6 +347,13 @@ type AutoscalingOptions struct {
 	ProactiveScaleupEnabled bool
 	// PodInjectionLimit limits total number of pods while injecting fake pods.
 	PodInjectionLimit int
+	// NodeDeletionCandidateTTL is the maximum time a node can be marked as removable without being deleted.
+	// This is used to prevent nodes from being stuck in the removable state during if the CA deployment becomes inactive.
+	NodeDeletionCandidateTTL time.Duration
+	//CapacitybufferControllerEnabled tells if CA should run default capacity buffer as sub-process or not
+	CapacitybufferControllerEnabled bool
+	// CapacitybufferPodInjectionEnabled tells if CA should injects fake pods for capacity buffers that are ready for provisioning
+	CapacitybufferPodInjectionEnabled bool
 }
 
 // KubeClientOptions specify options for kube client

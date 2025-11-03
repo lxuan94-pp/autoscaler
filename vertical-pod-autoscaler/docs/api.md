@@ -48,6 +48,8 @@ _Appears in:_
 | `maxAllowed` _[ResourceList](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcelist-v1-core)_ | Specifies the maximum amount of resources that will be recommended<br />for the container. The default is no maximum. |  |  |
 | `controlledResources` _[ResourceName](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#resourcename-v1-core)_ | Specifies the type of recommendations that will be computed<br />(and possibly applied) by VPA.<br />If not specified, the default of [ResourceCPU, ResourceMemory] will be used. |  |  |
 | `controlledValues` _[ContainerControlledValues](#containercontrolledvalues)_ | Specifies which resource values should be controlled.<br />The default is "RequestsAndLimits". |  | Enum: [RequestsAndLimits RequestsOnly] <br /> |
+| `oomBumpUpRatio` _float_ | OOMBumpUpRatio is the ratio to increase resources when OOM is detected. |  | Minimum: 1 <br /> |
+| `oomMinBumpUp` _float_ | OOMMinBumpUp is the minimum increase in resources when OOM is detected. |  | Minimum: 0 <br /> |
 
 
 #### ContainerScalingMode
@@ -301,7 +303,7 @@ _Appears in:_
 | `version` _string_ | Version of the format of the stored data. |  |  |
 | `cpuHistogram` _[HistogramCheckpoint](#histogramcheckpoint)_ | Checkpoint of histogram for consumption of CPU. |  |  |
 | `memoryHistogram` _[HistogramCheckpoint](#histogramcheckpoint)_ | Checkpoint of histogram for consumption of memory. |  |  |
-| `firstSampleStart` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | Timestamp of the fist sample from the histograms. |  |  |
+| `firstSampleStart` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | Timestamp of the first sample from the histograms. |  |  |
 | `lastSampleStart` _[Time](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta)_ | Timestamp of the last sample from the histograms. |  |  |
 | `totalSamplesCount` _integer_ | Total number of samples in the histograms. |  |  |
 
